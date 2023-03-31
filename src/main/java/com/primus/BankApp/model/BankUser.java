@@ -8,8 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 public class BankUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name = "name", strategy = "native")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String email;
     private String pwd;
