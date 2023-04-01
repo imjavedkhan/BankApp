@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-
+//@Service  //we are not using UserDetailsService as we have defined custom Authentication Provider
 public class BankUserDetails implements UserDetailsService {
 
     @Autowired

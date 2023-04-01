@@ -19,7 +19,15 @@ public class SecurityConfig {
         httpSecurity
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/myAccount","/myBalance","/myLoans","/myCards").authenticated()
+                /*.requestMatchers("/myAccount").hasAuthority("VIEWACCOUNT")
+                .requestMatchers("/myBalance").hasAnyAuthority("VIEWACCOUNT","VIEWBALANCE")
+                .requestMatchers("/myLoans").hasAuthority("VIEWLOANS")
+                .requestMatchers("/myCards").hasAuthority("VIEWCARDS")*/
+                .requestMatchers("/myAccount").hasRole("USER")
+                .requestMatchers("/myBalance").hasAnyRole("USER","ADMIN")
+                .requestMatchers("/myLoans").hasRole("USER")
+                .requestMatchers("/myCards").hasRole("USER")
+                .requestMatchers("/user").authenticated()
                 .requestMatchers("/notices","/contact","/register","v3/api-docs/**","/h2-console/**").permitAll()
                 .and().formLogin().and().httpBasic();
 

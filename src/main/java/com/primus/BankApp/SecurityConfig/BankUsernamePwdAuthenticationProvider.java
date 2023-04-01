@@ -1,5 +1,6 @@
 package com.primus.BankApp.SecurityConfig;
 
+import com.primus.BankApp.model.Authority;
 import com.primus.BankApp.model.BankUser;
 import com.primus.BankApp.repository.BankUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class BankUsernamePwdAuthenticationProvider implements AuthenticationProvider {
@@ -32,15 +34,26 @@ public class BankUsernamePwdAuthenticationProvider implements AuthenticationProv
         List<BankUser> user = bankUserRepository.findByEmail(username);
         if (user.size() > 0) {
             if (passwordEncoder.matches(pwd, user.get(0).getPwd())) {
-                List<GrantedAuthority> authorities = new ArrayList<>();
-                authorities.add(new SimpleGrantedAuthority(user.get(0).getRole()));
-                return new UsernamePasswordAuthenticationToken(username, pwd, authorities);
+                //List<GrantedAuthority> authorities = new ArrayList<>();
+                //authorities.add(new SimpleGrantedAuthority(user.get(0).getRole()));
+                return new UsernamePasswordAuthenticationToken
+                        (username, pwd, getGrantedAuthorities(user.get(0).getAuthorities()));
             } else {
                 throw new BadCredentialsException("Invalid password!");
             }
         }else {
             throw new BadCredentialsException("No user registered with this details!");
         }
+    }
+
+    private List<GrantedAuthority> getGrantedAuthorities(Set<Authority> auth){
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        for(Authority authority: auth){
+            authorities.add(new SimpleGrantedAuthority(authority.getName()));
+        }
+
+        return authorities;
     }
 
     @Override
