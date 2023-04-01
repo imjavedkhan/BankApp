@@ -1,5 +1,7 @@
 package com.primus.BankApp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -9,10 +11,17 @@ public class BankUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "customer_id")
     private int id;
+    private String name;
     private String email;
+    @Column(name = "mobile_number")
+    private int mobileNumber;
+
     private String pwd;
     private String role;
+    @Column(name = "create_dt")
+    private String createDt;
 
     public int getId() {
         return id;
@@ -44,5 +53,29 @@ public class BankUser {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(int mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getCreateDt() {
+        return createDt;
+    }
+
+    public void setCreateDt(String createDt) {
+        this.createDt = createDt;
     }
 }
