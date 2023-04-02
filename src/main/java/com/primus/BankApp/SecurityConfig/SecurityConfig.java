@@ -2,6 +2,7 @@ package com.primus.BankApp.SecurityConfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
@@ -26,7 +28,7 @@ public class SecurityConfig {
                 .requestMatchers("/myAccount").hasRole("USER")
                 .requestMatchers("/myBalance").hasAnyRole("USER","ADMIN")
                 .requestMatchers("/myLoans").hasRole("USER")
-                .requestMatchers("/myCards").hasRole("USER")
+                .requestMatchers("/myCards").authenticated()//.hasRole("USER")
                 .requestMatchers("/user").authenticated()
                 .requestMatchers("/notices","/contact","/register","v3/api-docs/**","/h2-console/**").permitAll()
                 .and().formLogin().and().httpBasic();
